@@ -7,6 +7,8 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 
+import java.util.List;
+
 @ApplicationScoped
 public class OrderService {
 
@@ -26,6 +28,23 @@ public class OrderService {
             order.addItem(item);
             orderRepository.persist(order);
         }
-
     }
+
+
+    public void updateOrderStatus(Long orderId, String status) {
+        Order order = orderRepository.findById(orderId);
+        if (order != null) {
+            order.updateStatus(status);
+            orderRepository.persist(order);
+        }
+    }
+
+    public List<Order> getAllOrders() {
+        return orderRepository.listAll();
+    }
+
+    public Order getOrderById(Long orderId) {
+        return orderRepository.findById(orderId);
+    }
+
 }
